@@ -10,7 +10,7 @@ class SplashViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor(red: 0x99/255, green: 0xC5/255, blue: 0xEF/255, alpha: 1.0) // #99C5EF 하늘색
+        view.backgroundColor = UIColor(hexCode: "99C5EF")
         setupLayout()
     }
 
@@ -27,8 +27,8 @@ class SplashViewController: UIViewController {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) { // 0.8초 보여주기
-            let mainVC = ViewController()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) { 
+            let mainVC = MainViewController()
             let nav = UINavigationController(rootViewController: mainVC)
             nav.modalPresentationStyle = .fullScreen
             UIApplication.shared.windows.first?.rootViewController = nav
