@@ -7,6 +7,7 @@ final class SearchViewController: UIViewController {
     
     private let disposeBag = DisposeBag()
     private let viewModel = SearchViewModel()
+    private let weatherViewModel = WeatherViewModel()
     
     private let searchButton = UIButton(type: .system)
     
@@ -42,6 +43,13 @@ final class SearchViewController: UIViewController {
         return button
     }()
     
+    // 날씨 표시용 라벨들
+    private let cityLabel = UILabel()
+    private let tempLabel = UILabel()
+    private let tempFLabel = UILabel()
+    private let windLabel = UILabel()
+    private let humidityLabel = UILabel()
+    
     // 하단 컨테이너 뷰
     private let bottomContainer = UIView()
     
@@ -50,6 +58,7 @@ final class SearchViewController: UIViewController {
         setupUI()
         bindViewModel()
         configureSearchButton()
+        bindWeatherViewModel()
     }
     
     // 돋보기 버튼 설정
@@ -65,10 +74,24 @@ final class SearchViewController: UIViewController {
     private func setupUI() {
         view.backgroundColor = .white
         
+        // 날씨 정보 스택뷰
+        let weatherStack = UIStackView(arrangedSubviews: [
+            cityLabel, tempLabel, tempFLabel, windLabel, humidityLabel
+        ])
+        weatherStack.axis = .vertical
+        weatherStack.alignment = .leading
+        weatherStack.spacing = 10
+        
+        view.addSubview(weatherStack)
+        weatherStack.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide).offset(80)
+            $0.leading.trailing.equalToSuperview().inset(20)
+        }
+        
         // 하단 컨테이너 레이아웃
         view.addSubview(bottomContainer)
         bottomContainer.snp.makeConstraints {
-            $0.leading.trailing.equalToSuperview().inset(17)
+            $0.leading.trailing.equalToSuperview().inset(20)
             $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(40)
             $0.height.equalTo(50)
         }
@@ -101,24 +124,33 @@ final class SearchViewController: UIViewController {
 
     
     private func bindViewModel() {
-        // View에서 발생하는 이벤트를 Input으로 구성
         let input = SearchViewModel.Input(
             searchText: searchTextField.rx.text.orEmpty.asObservable(),
             searchTrigger: Observable.merge(
-                searchButton.rx.tap.asObservable(), // 돋보기 버튼 탭
+                searchButton.rx.tap.asObservable(),
                 searchTextField.rx.controlEvent(.editingDidEndOnExit).asObservable()
             ),
             locationButtonTapped: locationButton.rx.tap.asObservable()
         )
         
-        // ViewModel 변환 (Input -> Output)
         let output = viewModel.transform(input)
         
-        // 검색 실행 시 콘솔 출력
         output.searchExecuted
-            .subscribe(onNext: { query in
-                print("검색 실행됨: \(query)")
+            .subscribe(onNext: { [weak self] query in
+                self?.weatherViewModel.loadWeather(for: query)
             })
             .disposed(by: disposeBag)
+
+    }
+    
+    private func bindWeatherViewModel() {
+        weatherViewModel.onUpdate = { [weak self] in
+            guard let self = self else { return }
+            self.cityLabel.text = "지역: \(self.weatherViewModel.cityName)"
+            self.tempLabel.text = "온도(섭씨): \(self.weatherViewModel.temperatureC)"
+            self.tempFLabel.text = "온도(화씨): \(self.weatherViewModel.temperatureF)"
+            self.windLabel.text = "풍속: \(self.weatherViewModel.windSpeed)"
+            self.humidityLabel.text = "습도: \(self.weatherViewModel.humidity)"
+        }
     }
 }
