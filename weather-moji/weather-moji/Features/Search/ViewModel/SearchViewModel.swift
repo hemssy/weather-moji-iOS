@@ -1,11 +1,3 @@
-//
-//  SearchViewModel.swift
-//  weather-moji
-//
-//  Created by 김리하 on 11/4/25.
-//
-
-
 import Foundation
 import RxSwift
 import RxCocoa
