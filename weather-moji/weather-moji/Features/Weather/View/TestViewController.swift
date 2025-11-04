@@ -1,7 +1,7 @@
 import UIKit
 import SnapKit
 
-class MainViewController: UIViewController {
+class TestViewController: UIViewController {
     
     private let viewModel = WeatherViewModel()
     

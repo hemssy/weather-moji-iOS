@@ -27,7 +27,7 @@ class SplashViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) { 
-            let mainVC = MainViewController()
+            let mainVC = SearchViewController()
             let nav = UINavigationController(rootViewController: mainVC)
             nav.modalPresentationStyle = .fullScreen
             UIApplication.shared.windows.first?.rootViewController = nav
