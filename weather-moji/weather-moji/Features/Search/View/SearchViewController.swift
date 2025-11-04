@@ -8,7 +8,6 @@ final class SearchViewController: UIViewController {
     private let viewModel = SearchViewModel()
     private let weatherViewModel = WeatherViewModel()
     
-    private let weatherViewModel = WeatherViewModel()
     private let navigationBarTitle = UINavigationBar()
     private let tempToggleView = TempToggleView()
     
@@ -130,12 +129,6 @@ final class SearchViewController: UIViewController {
         return button
     }()
     
-    // 날씨 표시용 라벨들
-    private let cityLabel = UILabel()
-    private let tempLabel = UILabel()
-    private let tempFLabel = UILabel()
-    private let windLabel = UILabel()
-    private let humidityLabel = UILabel()
     
     // 하단 컨테이너 뷰
     private let bottomContainer = UIView()
@@ -148,7 +141,6 @@ final class SearchViewController: UIViewController {
         setupUI()
         bindViewModel()
         configureSearchButton()
-        bindWeatherViewModel()
     }
     
     // 배경 설정
