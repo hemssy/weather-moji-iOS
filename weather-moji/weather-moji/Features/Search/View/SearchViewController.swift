@@ -4,11 +4,98 @@ import RxSwift
 import RxCocoa
 
 final class SearchViewController: UIViewController {
-    
     private let disposeBag = DisposeBag()
     private let viewModel = SearchViewModel()
     
+    private let weatherViewModel = WeatherViewModel()
+    private let navigationBarTitle = UINavigationBar()
+    private let tempToggleView = TempToggleView()
+    
     private let searchButton = UIButton(type: .system)
+    
+    private let backgroundColor = BackgroundColorView(colors: [
+        UIColor(hexCode: "5497E4"),
+        UIColor(hexCode: "2F547E")
+    ])
+    
+    // 최상단 타이틀 라벨
+    private let titleLabel: UILabel = {
+        let label = UILabel()
+        label.text = "지금 날씨 모지?"
+        label.textColor = .white
+        label.font = .systemFont(ofSize: 18)
+        label.textAlignment = .center
+        return label
+    }()
+    
+    // 지역 라벨
+    private let cityLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .white
+        label.font = .systemFont(ofSize: 24)
+        label.textAlignment = .center
+        return label
+    }()
+    
+    // 날씨 이미지
+    private let weatherImage: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage(named: "sun")
+        imageView.contentMode = .scaleAspectFit
+        return imageView
+    }()
+    
+    // 섭씨 라벨
+    private let tempLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .white
+        label.font = .systemFont(ofSize: 40)
+        label.textAlignment = .center
+        return label
+    }()
+    
+    // 화씨 라벨
+    private let tempFlabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .white
+        label.font = .systemFont(ofSize: 40)
+        label.textAlignment = .center
+        return label
+    }()
+    
+    // 풍속 라벨
+    private let windLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .white
+        label.font = .systemFont(ofSize: 16)
+        return label
+    }()
+    // 습도 라벨
+    private let humidityLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .white
+        label.font = .systemFont(ofSize: 16)
+        return label
+    }()
+    
+    // 풍속, 습도 스택
+    private lazy var weatherHStack: UIStackView = {
+        let hStack = UIStackView(arrangedSubviews: [windLabel, humidityLabel])
+        hStack.axis = .horizontal
+        hStack.spacing = 80
+        return hStack
+    }()
+    
+    // 날씨 설명 라벨
+    private let explanLabel: UILabel = {
+        let label = UILabel()
+        label.text = "날씨 설명을 하는 라벨입니다~"
+        label.textColor = .white
+        label.font = .systemFont(ofSize: 14)
+        label.textAlignment = .center
+        label.numberOfLines = 0
+        return label
+    }()
     
     // 검색어 입력 필드
     private let searchTextField: UITextField = {
@@ -47,9 +134,35 @@ final class SearchViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        weatherViewModel.loadWeather(for: "Seoul")
+        setBackgroundConstraints()
+        setupNavigationTitle()
         setupUI()
         bindViewModel()
         configureSearchButton()
+    }
+    
+    // 배경 설정
+    private func setBackgroundConstraints() {
+        view.addSubview(backgroundColor)
+        backgroundColor.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+    }
+    
+    // navigationTitle 이미지 설정
+    private func setupNavigationTitle() {
+        let logoImageView = UIImageView(image: UIImage(named: "titleLogo"))
+        logoImageView.contentMode = .scaleAspectFit
+        
+        let container = UIView()
+        container.addSubview(logoImageView)
+        
+        logoImageView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+            $0.height.equalTo(40)
+        }
+        navigationItem.titleView = container
     }
     
     // 돋보기 버튼 설정
@@ -64,6 +177,27 @@ final class SearchViewController: UIViewController {
     // UI 설정
     private func setupUI() {
         view.backgroundColor = .white
+        
+        // 상단 정보를 모두 vStack으로 묶기
+        let mainStack = UIStackView(arrangedSubviews: [titleLabel, cityLabel, weatherImage, tempToggleView, tempLabel, weatherHStack, explanLabel])
+        mainStack.axis = .vertical
+        mainStack.alignment = .center
+        mainStack.spacing = 30
+        
+        view.addSubview(mainStack)
+        mainStack.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide).offset(40)
+            $0.leading.trailing.equalToSuperview().inset(30)
+        }
+        
+        weatherImage.snp.makeConstraints {
+            $0.width.height.equalTo(150)
+        }
+        
+        tempToggleView.snp.makeConstraints {
+            $0.width.equalTo(250)
+            $0.height.equalTo(80)
+        }
         
         // 하단 컨테이너 레이아웃
         view.addSubview(bottomContainer)
@@ -98,7 +232,7 @@ final class SearchViewController: UIViewController {
         searchTextField.setContentHuggingPriority(.defaultLow, for: .horizontal)
         locationButton.setContentHuggingPriority(.required, for: .horizontal)
     }
-
+    
     
     private func bindViewModel() {
         // View에서 발생하는 이벤트를 Input으로 구성
@@ -120,5 +254,40 @@ final class SearchViewController: UIViewController {
                 print("검색 실행됨: \(query)")
             })
             .disposed(by: disposeBag)
+        
+        // 날씨 데이터
+        weatherViewModel.onUpdate = { [weak self] in
+            guard let self = self else { return }
+            self.cityLabel.text = self.weatherViewModel.cityName
+            self.tempLabel.text = "\(self.weatherViewModel.temperatureC)"
+            self.tempFlabel.text = "\(self.weatherViewModel.temperatureF)"
+            self.windLabel.setSymbolText("wind", text: "\(self.weatherViewModel.windSpeed)", color: .white)
+            self.humidityLabel.setSymbolText("drop", text: "\(self.weatherViewModel.humidity)", color: .white)
+        }
+    }
+    
+}
+
+
+
+// Label에 이미지와 같이 작성할 수 있게
+extension UILabel {
+    func setSymbolText(_ systemName: String, text: String, color: UIColor = .label) {
+        let attachment = NSTextAttachment()
+        attachment.image = UIImage(systemName: systemName)?
+            .withTintColor(color, renderingMode: .alwaysOriginal)
+        
+        // 아이콘 크기 맞추기
+        let symbolSize: CGFloat = self.font.lineHeight
+        attachment.bounds = CGRect(x: 0, y: (self.font.capHeight - symbolSize) / 2, width: symbolSize, height: symbolSize)
+        
+        let attachmentString = NSAttributedString(attachment: attachment)
+        let textString = NSAttributedString(string: " " + text, attributes: [.foregroundColor: color, .font: self.font ?? UIFont.systemFont(ofSize: 14)])
+        
+        let final = NSMutableAttributedString()
+        final.append(attachmentString)
+        final.append(textString)
+        
+        self.attributedText = final
     }
 }
