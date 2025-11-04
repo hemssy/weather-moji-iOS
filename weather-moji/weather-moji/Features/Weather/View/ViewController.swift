@@ -23,7 +23,7 @@ class ViewController: UIViewController {
     }
     
     private func setupUI() {
-        // 스택뷰 만들기
+
         let stack = UIStackView(arrangedSubviews: [
             cityLabel,
             tempLabel,
@@ -32,15 +32,12 @@ class ViewController: UIViewController {
             humidityLabel
         ])
 
-        // 스택뷰 기본 설정
         stack.axis = .vertical
         stack.alignment = .center
         stack.spacing = 10
         
-        // 스택뷰 화면에 추가
         view.addSubview(stack)
         
-        // 화면 중앙 배치
         stack.snp.makeConstraints {
             $0.center.equalToSuperview()
         }
