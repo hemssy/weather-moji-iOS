@@ -327,7 +327,8 @@ final class SearchViewController: UIViewController {
             self.humidityLabel.setSymbolText("drop", text: "\(self.weatherViewModel.humidity)", color: .white)
             
             self.explanLabel.text = self.weatherViewModel.weatherDescription
-            
+            self.weatherImage.image = UIImage(named: self.weatherViewModel.weatherIconName)
+
             if self.tempToggleView.selectedIndex == 0 {
                 self.tempClabel.isHidden = false
                 self.tempFlabel.isHidden = true
