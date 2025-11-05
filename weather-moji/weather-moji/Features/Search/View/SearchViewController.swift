@@ -46,7 +46,7 @@ final class SearchViewController: UIViewController {
     }()
     
     // 섭씨 라벨
-    private let tempLabel: UILabel = {
+    private let tempClabel: UILabel = {
         let label = UILabel()
         label.textColor = .white
         label.font = .systemFont(ofSize: 40)
@@ -179,8 +179,8 @@ final class SearchViewController: UIViewController {
     private func setupUI() {
         view.backgroundColor = .white
 
-        // 상단 정보를 모두 vStack으로 묶기
-        let mainStack = UIStackView(arrangedSubviews: [titleLabel, cityLabel, weatherImage, tempToggleView, tempLabel, weatherHStack, explanLabel])
+        // 날씨 정보를 모두 vStack으로 묶기
+        let mainStack = UIStackView(arrangedSubviews: [titleLabel, cityLabel, weatherImage, tempToggleView, tempClabel, tempFlabel, weatherHStack, explanLabel])
         mainStack.axis = .vertical
         mainStack.alignment = .center
         mainStack.spacing = 30
@@ -257,11 +257,34 @@ final class SearchViewController: UIViewController {
         weatherViewModel.onUpdate = { [weak self] in
             guard let self = self else { return }
             self.cityLabel.text = self.weatherViewModel.cityName
-            self.tempLabel.text = "\(self.weatherViewModel.temperatureC)"
+            self.tempClabel.text = "\(self.weatherViewModel.temperatureC)"
             self.tempFlabel.text = "\(self.weatherViewModel.temperatureF)"
             self.windLabel.setSymbolText("wind", text: "\(self.weatherViewModel.windSpeed)", color: .white)
             self.humidityLabel.setSymbolText("drop", text: "\(self.weatherViewModel.humidity)", color: .white)
+            
+            if self.tempToggleView.selectedIndex == 0 {
+                self.tempClabel.isHidden = false
+                self.tempFlabel.isHidden = true
+            } else {
+                self.tempClabel.isHidden = true
+                self.tempFlabel.isHidden = false
+            }
         }
+        
+        // 토글 이벤트 연결
+        tempToggleView.onValueChanged = { [weak self] selectedIndex in
+            guard let self = self else { return }
+
+            if selectedIndex == 0 {
+                self.tempClabel.isHidden = false
+                self.tempFlabel.isHidden = true
+            } else {
+                self.tempClabel.isHidden = true
+                self.tempFlabel.isHidden = false
+            }
+
+        }
+
     }
     
 }
