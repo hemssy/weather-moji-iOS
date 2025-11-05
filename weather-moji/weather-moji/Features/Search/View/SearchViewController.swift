@@ -101,18 +101,34 @@ final class SearchViewController: UIViewController {
     private let searchTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "지역명을 입력해주세요."
-        textField.borderStyle = .none
         textField.backgroundColor = .white
-        textField.returnKeyType = .search
-        textField.textColor = .darkGray
-        textField.font = .systemFont(ofSize: 16)
         textField.layer.cornerRadius = 17
-        textField.layer.borderWidth = 1 // 0으로 변경 예정
-        textField.layer.borderColor = UIColor.systemGray4.cgColor
-        textField.layer.masksToBounds = true
-        textField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 12, height: 0))
+        textField.layer.borderWidth = 1
+        textField.layer.borderColor = UIColor.white.cgColor
+
+        // 돋보기 아이콘 추가
+        let iconImageView = UIImageView(image: UIImage(systemName: "magnifyingglass"))
+        iconImageView.tintColor = .darkGray
+        iconImageView.contentMode = .scaleAspectFit
+        iconImageView.frame = CGRect(x: 4, y: 0, width: 18, height: 18)
+
+        // 컨테이너 폭을 늘려서 오른쪽으로 살짝 옮김
+        let iconContainerView = UIView(frame: CGRect(x: 0, y: 0, width: 36, height: 30))
+        iconContainerView.addSubview(iconImageView)
+        iconImageView.center = iconContainerView.center
+
+        textField.leftView = iconContainerView
         textField.leftViewMode = .always
+
         return textField
+    }()
+
+
+    private let searchIcon: UIImageView = {
+        let imageView = UIImageView(image: UIImage(systemName: "magnifyingglass"))
+            imageView.tintColor = .darkGray
+            imageView.contentMode = .scaleAspectFit
+        return imageView
     }()
     
     // 현재 위치 버튼
@@ -124,7 +140,7 @@ final class SearchViewController: UIViewController {
         button.backgroundColor = .white
         button.layer.cornerRadius = 15
         button.layer.borderWidth = 1.2
-        button.layer.borderColor = UIColor.black.cgColor // 위치버튼 테두리
+        button.layer.borderColor = UIColor.white.cgColor // 위치버튼 테두리
         button.clipsToBounds = true
         return button
     }()
@@ -170,9 +186,10 @@ final class SearchViewController: UIViewController {
     private func configureSearchButton() {
         searchButton.setImage(UIImage(systemName: "magnifyingglass"), for: .normal)
         searchButton.tintColor = .darkGray
+        
+        
         searchButton.frame = CGRect(x: 0, y: 0, width: 36, height: 24)
-        searchTextField.rightView = searchButton
-        searchTextField.rightViewMode = .always
+        
     }
     
     // UI 설정
@@ -221,6 +238,7 @@ final class SearchViewController: UIViewController {
         // 검색창 높이 고정
         searchTextField.snp.makeConstraints {
             $0.height.equalTo(36)
+            $0.trailing.equalTo(locationButton.snp.leading).offset(-20)
         }
         
         // 위치 버튼 크기 고정 (정사각형 + 검색창 높이에 맞춤)
