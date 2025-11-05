@@ -24,6 +24,10 @@ final class TempToggleView: UIView {
         return tempControl
     }()
     
+    var selectedIndex: Int {
+        return segmentedControl.selectedSegmentIndex
+    }
+    
     var onValueChanged: ((Int) -> Void)?
     
     override init(frame: CGRect) {
