@@ -280,6 +280,8 @@ final class SearchViewController: UIViewController {
             self.windLabel.setSymbolText("wind", text: "\(self.weatherViewModel.windSpeed)", color: .white)
             self.humidityLabel.setSymbolText("drop", text: "\(self.weatherViewModel.humidity)", color: .white)
             
+            self.explanLabel.text = self.weatherViewModel.weatherDescription
+            
             if self.tempToggleView.selectedIndex == 0 {
                 self.tempClabel.isHidden = false
                 self.tempFlabel.isHidden = true
