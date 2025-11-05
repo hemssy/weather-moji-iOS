@@ -9,6 +9,7 @@ class WeatherViewModel {
     var windSpeed: String = ""
     var humidity: String = ""
     var weatherDescription: String = ""
+    var weatherIconName: String = ""
     
     var onUpdate: (() -> Void)?
     
@@ -25,6 +26,8 @@ class WeatherViewModel {
                     
                     let mainWeather = data.weather.first?.main ?? ""
                     self.weatherDescription = self.customDescription(for: mainWeather)
+                    
+                    self.weatherIconName = self.iconName(for: mainWeather)
                     
                     self.onUpdate?()
                 case .failure(let error):
@@ -48,6 +51,17 @@ class WeatherViewModel {
             return "강한 비와 번개, 천둥이 동반된 날씨입니다."
         default:
             return "날씨모지와 함께 좋은 하루 보내세요."
+        }
+    }
+    
+    private func iconName(for main: String) -> String {
+        switch main {
+        case "Clear": return "sun"
+        case "Clouds": return "cloud"
+        case "Rain": return "rain"
+        case "Snow": return "snow"
+        case "Thunderstorm": return "storm"
+        default: return "default"
         }
     }
 }
