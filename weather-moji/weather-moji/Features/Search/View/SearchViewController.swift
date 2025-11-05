@@ -18,6 +18,18 @@ final class SearchViewController: UIViewController {
         UIColor(hexCode: "2F547E")
     ])
     
+    // 스크롤 뷰로 뷰 전체 감싸기
+    private let scrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.alwaysBounceVertical = true
+        return scrollView
+    }()
+    
+    // 당겨서 새로고침
+    private let refreshControl = UIRefreshControl()
+    
+    private let contentView = UIView()
+    
     // 최상단 타이틀 라벨
     private let titleLabel: UILabel = {
         let label = UILabel()
@@ -157,6 +169,7 @@ final class SearchViewController: UIViewController {
         setupUI()
         bindViewModel()
         configureSearchButton()
+        pullToRefresh()
     }
     
     // 배경 설정
@@ -202,10 +215,30 @@ final class SearchViewController: UIViewController {
         mainStack.alignment = .center
         mainStack.spacing = 30
         
-        view.addSubview(mainStack)
+        // mainStack을 contentView에
+        contentView.addSubview(mainStack)
+        
+        // contentView를 scrollView에 추가
+        scrollView.addSubview(contentView)
+        
+        // scrollView를 view에 추가
+        view.addSubview(scrollView)
+    
+        scrollView.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide)
+            $0.leading.trailing.bottom.equalToSuperview()
+        }
+        
+        contentView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+            $0.width.equalTo(scrollView.snp.width)
+
+        }
+        
         mainStack.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide).offset(40)
+            $0.top.equalToSuperview().offset(40)
             $0.leading.trailing.equalToSuperview().inset(30)
+            $0.bottom.equalToSuperview().inset(100)
         }
         
         weatherImage.snp.makeConstraints {
@@ -252,6 +285,19 @@ final class SearchViewController: UIViewController {
         locationButton.setContentHuggingPriority(.required, for: .horizontal)
     }
     
+    // 당겨서 새로고침 설정
+    private func pullToRefresh() {
+        refreshControl.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
+        scrollView.refreshControl = refreshControl
+        refreshControl.tintColor = .white
+    }
+
+    // 당겨서 새로고침 동작 처리
+    @objc private func handleRefresh() {
+        // 현재 지역 날씨 데이터로 초기화
+        let cureentCityWheather = weatherViewModel.cityName
+        weatherViewModel.loadWeather(for: cureentCityWheather)
+    }
     
     private func bindViewModel() {
         let input = SearchViewModel.Input(
@@ -287,6 +333,8 @@ final class SearchViewController: UIViewController {
                 self.tempClabel.isHidden = true
                 self.tempFlabel.isHidden = false
             }
+            // 새로고침 종료(날씨 데이터 로드 완료 시)
+            self.refreshControl.endRefreshing()
         }
         
         // 토글 이벤트 연결
