@@ -7,6 +7,7 @@ final class SearchViewController: UIViewController {
     private let disposeBag = DisposeBag()
     private let viewModel = SearchViewModel()
     private let weatherViewModel = WeatherViewModel()
+    private let locationManager = LocationManagerService()
     
     private let navigationBarTitle = UINavigationBar()
     private let tempToggleView = TempToggleView()
@@ -170,6 +171,7 @@ final class SearchViewController: UIViewController {
         bindViewModel()
         configureSearchButton()
         pullToRefresh()
+        locationManager.checkRequestAuthorization()
     }
     
     // 배경 설정
