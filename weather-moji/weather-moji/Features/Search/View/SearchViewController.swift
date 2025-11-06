@@ -124,7 +124,6 @@ final class SearchViewController: UIViewController {
         iconImageView.contentMode = .scaleAspectFit
         iconImageView.frame = CGRect(x: 4, y: 0, width: 18, height: 18)
 
-        // 컨테이너 폭을 늘려서 오른쪽으로 살짝 옮김
         let iconContainerView = UIView(frame: CGRect(x: 0, y: 0, width: 36, height: 30))
         iconContainerView.addSubview(iconImageView)
         iconImageView.center = iconContainerView.center
@@ -144,7 +143,7 @@ final class SearchViewController: UIViewController {
         button.backgroundColor = .white
         button.layer.cornerRadius = 15
         button.layer.borderWidth = 1.2
-        button.layer.borderColor = UIColor.white.cgColor // 위치버튼 테두리
+        button.layer.borderColor = UIColor.white.cgColor
         button.clipsToBounds = true
         return button
     }()
@@ -291,6 +290,7 @@ final class SearchViewController: UIViewController {
         weatherViewModel.loadWeather(for: cureentCityWheather)
     }
     
+    // 바인드 뷰모델
     private func bindViewModel() {
         let input = SearchViewModel.Input(
             searchText: searchTextField.rx.text.orEmpty.asObservable(),
@@ -352,7 +352,7 @@ final class SearchViewController: UIViewController {
     
 }
 
-
+// 라벨 설정
 extension UILabel {
     func setSymbolText(_ systemName: String, text: String, color: UIColor = .label) {
         let attachment = NSTextAttachment()
