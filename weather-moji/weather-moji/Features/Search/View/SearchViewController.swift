@@ -100,9 +100,8 @@ final class SearchViewController: UIViewController {
     }()
     
     // 날씨 설명 라벨
-    private let explanLabel: UILabel = {
+    private let explainLabel: UILabel = {
         let label = UILabel()
-        label.text = "날씨 설명을 하는 라벨입니다."
         label.textColor = .white
         label.font = .systemFont(ofSize: 14)
         label.textAlignment = .center
@@ -125,7 +124,6 @@ final class SearchViewController: UIViewController {
         iconImageView.contentMode = .scaleAspectFit
         iconImageView.frame = CGRect(x: 4, y: 0, width: 18, height: 18)
 
-        // 컨테이너 폭을 늘려서 오른쪽으로 살짝 옮김
         let iconContainerView = UIView(frame: CGRect(x: 0, y: 0, width: 36, height: 30))
         iconContainerView.addSubview(iconImageView)
         iconImageView.center = iconContainerView.center
@@ -145,7 +143,7 @@ final class SearchViewController: UIViewController {
         button.backgroundColor = .white
         button.layer.cornerRadius = 15
         button.layer.borderWidth = 1.2
-        button.layer.borderColor = UIColor.white.cgColor // 위치버튼 테두리
+        button.layer.borderColor = UIColor.white.cgColor
         button.clipsToBounds = true
         return button
     }()
@@ -203,7 +201,7 @@ final class SearchViewController: UIViewController {
         view.backgroundColor = .white
 
         // 날씨 정보를 모두 vStack으로 묶기
-        let mainStack = UIStackView(arrangedSubviews: [titleLabel, cityLabel, weatherImage, tempToggleView, tempClabel, tempFlabel, weatherHStack, explanLabel])
+        let mainStack = UIStackView(arrangedSubviews: [titleLabel, cityLabel, weatherImage, tempToggleView, tempClabel, tempFlabel, weatherHStack, explainLabel])
         mainStack.axis = .vertical
         mainStack.alignment = .center
         mainStack.spacing = 30
@@ -292,6 +290,7 @@ final class SearchViewController: UIViewController {
         weatherViewModel.loadWeather(for: cureentCityWheather)
     }
     
+    // 바인드 뷰모델
     private func bindViewModel() {
         let input = SearchViewModel.Input(
             searchText: searchTextField.rx.text.orEmpty.asObservable(),
@@ -319,7 +318,7 @@ final class SearchViewController: UIViewController {
             self.windLabel.setSymbolText("wind", text: "\(self.weatherViewModel.windSpeed)", color: .white)
             self.humidityLabel.setSymbolText("drop", text: "\(self.weatherViewModel.humidity)", color: .white)
             
-            self.explanLabel.text = self.weatherViewModel.weatherDescription
+            self.explainLabel.text = self.weatherViewModel.weatherDescription
             self.weatherImage.image = UIImage(named: self.weatherViewModel.weatherIconName)
             
             self.backgroundColor.gradientLayer.colors = self.weatherViewModel.backgroundColors.map { $0.cgColor }
@@ -353,7 +352,7 @@ final class SearchViewController: UIViewController {
     
 }
 
-
+// 라벨 설정
 extension UILabel {
     func setSymbolText(_ systemName: String, text: String, color: UIColor = .label) {
         let attachment = NSTextAttachment()
