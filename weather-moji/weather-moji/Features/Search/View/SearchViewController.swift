@@ -201,6 +201,7 @@ final class SearchViewController: UIViewController {
     
     @objc private func tapTitleLogo() {
         let forecastVC = ForecastViewController()
+        navigationItem.backButtonTitle = ""
         navigationController?.pushViewController(forecastVC, animated: true)
     }
     
