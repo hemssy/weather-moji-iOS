@@ -82,6 +82,7 @@ final class SearchViewController: UIViewController {
         label.font = .systemFont(ofSize: 16)
         return label
     }()
+    
     // 습도 라벨
     private let humidityLabel: UILabel = {
         let label = UILabel()
@@ -101,7 +102,7 @@ final class SearchViewController: UIViewController {
     // 날씨 설명 라벨
     private let explanLabel: UILabel = {
         let label = UILabel()
-        label.text = "날씨 설명을 하는 라벨입니다~"
+        label.text = "날씨 설명을 하는 라벨입니다."
         label.textColor = .white
         label.font = .systemFont(ofSize: 14)
         label.textAlignment = .center
@@ -133,14 +134,6 @@ final class SearchViewController: UIViewController {
         textField.leftViewMode = .always
 
         return textField
-    }()
-
-
-    private let searchIcon: UIImageView = {
-        let imageView = UIImageView(image: UIImage(systemName: "magnifyingglass"))
-            imageView.tintColor = .darkGray
-            imageView.contentMode = .scaleAspectFit
-        return imageView
     }()
     
     // 현재 위치 버튼
@@ -328,6 +321,8 @@ final class SearchViewController: UIViewController {
             
             self.explanLabel.text = self.weatherViewModel.weatherDescription
             self.weatherImage.image = UIImage(named: self.weatherViewModel.weatherIconName)
+            
+            self.backgroundColor.gradientLayer.colors = self.weatherViewModel.backgroundColors.map { $0.cgColor }
 
             if self.tempToggleView.selectedIndex == 0 {
                 self.tempClabel.isHidden = false
@@ -359,14 +354,12 @@ final class SearchViewController: UIViewController {
 }
 
 
-// Label에 이미지와 같이 작성할 수 있게
 extension UILabel {
     func setSymbolText(_ systemName: String, text: String, color: UIColor = .label) {
         let attachment = NSTextAttachment()
         attachment.image = UIImage(systemName: systemName)?
             .withTintColor(color, renderingMode: .alwaysOriginal)
         
-        // 아이콘 크기 맞추기
         let symbolSize: CGFloat = self.font.lineHeight
         attachment.bounds = CGRect(x: 0, y: (self.font.capHeight - symbolSize) / 2, width: symbolSize, height: symbolSize)
         

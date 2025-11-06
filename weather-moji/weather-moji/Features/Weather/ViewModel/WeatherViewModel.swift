@@ -1,3 +1,4 @@
+import UIKit
 import Foundation
 
 class WeatherViewModel {
@@ -10,6 +11,8 @@ class WeatherViewModel {
     var humidity: String = ""
     var weatherDescription: String = ""
     var weatherIconName: String = ""
+    var backgroundColors: [UIColor] = []
+    
     
     var onUpdate: (() -> Void)?
     
@@ -28,10 +31,12 @@ class WeatherViewModel {
                     self.weatherDescription = self.customDescription(for: mainWeather)
                     
                     self.weatherIconName = self.iconName(for: mainWeather)
+                    self.backgroundColors = self.backgroundColors(for: mainWeather)
+
                     
                     self.onUpdate?()
                 case .failure(let error):
-                    print("날씨 데이터 불러오기 실패:", error.localizedDescription)
+                    print("날씨 데이터 불러오기 실패")
                 }
             }
         }
@@ -64,5 +69,23 @@ class WeatherViewModel {
         default: return "default"
         }
     }
+    
+    private func backgroundColors(for main: String) -> [UIColor] {
+        switch main {
+        case "Clear":
+            return [UIColor(hexCode: "5497E4"), UIColor(hexCode: "2F547E")]
+        case "Clouds":
+            return [UIColor(hexCode: "46586D"), UIColor(hexCode: "6883A3")]
+        case "Rain":
+            return [UIColor(hexCode: "3B4147"), UIColor(hexCode: "75808C")]
+        case "Snow":
+            return [UIColor(hexCode: "6385AD"), UIColor(hexCode: "92ADC8")]
+        case "Thunderstorm":
+            return [UIColor(hexCode: "71777E"), UIColor(hexCode: "9EA6B0")]
+        default:
+            return [UIColor(hexCode: "5497E4"), UIColor(hexCode: "2F547E")]
+        }
+    }
+
 }
 
