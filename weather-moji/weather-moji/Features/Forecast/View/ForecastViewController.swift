@@ -10,6 +10,7 @@ final class ForecastViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         
+        navigationBarCustom()
         setupUI()
         bindViewModel()
         viewModel.loadForecast()
@@ -39,6 +40,17 @@ final class ForecastViewController: UIViewController {
                 self.stackView.addArrangedSubview(label)
             }
         }
+    }
+    
+    private func navigationBarCustom() {
+        navigationController?.navigationBar.tintColor = .white
+
+        let logoImageView = UIImageView(image: UIImage(named: "titleLogo"))
+        logoImageView.contentMode = .scaleAspectFit
+        logoImageView.snp.makeConstraints {
+            $0.height.equalTo(45)
+        }
+        navigationItem.titleView = logoImageView
     }
 }
 
