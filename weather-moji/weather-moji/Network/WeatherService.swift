@@ -24,5 +24,30 @@ class WeatherService {
             }
         }.resume()
     }
+    
+    func fetchForecast(completion: @escaping (Result<ForecastResponse, Error>) -> Void) {
+        // 서울 고정 (위도/경도)
+        let urlString = "https://api.openweathermap.org/data/2.5/forecast?lat=37.5665&lon=126.9780&appid=\(apiKey)&units=metric&lang=kr"
+        guard let url = URL(string: urlString) else {
+            print("잘못된 URL이다.")
+            return
+        }
+        
+        URLSession.shared.dataTask(with: url) { data, _, error in
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+            
+            guard let data = data else { return }
+            
+            do {
+                let decoded = try JSONDecoder().decode(ForecastResponse.self, from: data)
+                completion(.success(decoded))
+            } catch {
+                completion(.failure(error))
+            }
+        }.resume()
+    }
 }
 
