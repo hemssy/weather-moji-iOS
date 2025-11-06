@@ -100,9 +100,8 @@ final class SearchViewController: UIViewController {
     }()
     
     // 날씨 설명 라벨
-    private let explanLabel: UILabel = {
+    private let explainLabel: UILabel = {
         let label = UILabel()
-        label.text = "날씨 설명을 하는 라벨입니다."
         label.textColor = .white
         label.font = .systemFont(ofSize: 14)
         label.textAlignment = .center
@@ -203,7 +202,7 @@ final class SearchViewController: UIViewController {
         view.backgroundColor = .white
 
         // 날씨 정보를 모두 vStack으로 묶기
-        let mainStack = UIStackView(arrangedSubviews: [titleLabel, cityLabel, weatherImage, tempToggleView, tempClabel, tempFlabel, weatherHStack, explanLabel])
+        let mainStack = UIStackView(arrangedSubviews: [titleLabel, cityLabel, weatherImage, tempToggleView, tempClabel, tempFlabel, weatherHStack, explainLabel])
         mainStack.axis = .vertical
         mainStack.alignment = .center
         mainStack.spacing = 30
@@ -319,7 +318,7 @@ final class SearchViewController: UIViewController {
             self.windLabel.setSymbolText("wind", text: "\(self.weatherViewModel.windSpeed)", color: .white)
             self.humidityLabel.setSymbolText("drop", text: "\(self.weatherViewModel.humidity)", color: .white)
             
-            self.explanLabel.text = self.weatherViewModel.weatherDescription
+            self.explainLabel.text = self.weatherViewModel.weatherDescription
             self.weatherImage.image = UIImage(named: self.weatherViewModel.weatherIconName)
             
             self.backgroundColor.gradientLayer.colors = self.weatherViewModel.backgroundColors.map { $0.cgColor }
