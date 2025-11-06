@@ -175,17 +175,33 @@ final class SearchViewController: UIViewController {
     
     // navigationTitle 이미지 설정
     private func setupNavigationTitle() {
-        let logoImageView = UIImageView(image: UIImage(named: "titleLogo"))
+        guard let logoImage = UIImage(named: "titleLogo") else { return }
+        
+        let logoImageView = UIImageView(image: logoImage)
         logoImageView.contentMode = .scaleAspectFit
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapTitleLogo))
         
         let container = UIView()
         container.addSubview(logoImageView)
+        container.isUserInteractionEnabled = true
+        container.addGestureRecognizer(tapGesture)
         
         logoImageView.snp.makeConstraints {
             $0.edges.equalToSuperview()
-            $0.height.equalTo(40)
+        }
+        
+        container.snp.makeConstraints {
+            $0.width.equalTo(logoImage.size.width / 2.5)
+            $0.height.equalTo(logoImage.size.height / 2.5)
         }
         navigationItem.titleView = container
+    
+    }
+    
+    @objc private func tapTitleLogo() {
+        let forecastVC = ForecastViewController()
+        navigationController?.pushViewController(forecastVC, animated: true)
     }
     
     // 돋보기 버튼 설정
