@@ -4,18 +4,28 @@ import SnapKit
 final class ForecastViewController: UIViewController, UITableViewDelegate {
     
     private let viewModel = ForecastViewModel()
+    private let weatherViewModel = WeatherViewModel()
+    
     private let stackView = UIStackView()
     private let tableView = UITableView()
     
+    // 배경 뷰 추가
+    private let backgroundView = BackgroundColorView(colors: [
+        UIColor(hexCode: "5497E4"),
+        UIColor(hexCode: "2F547E")
+    ])
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .gray
         
+        setupBackground()
         navigationBarCustom()
         setupUI()
         setupTableView()
         bindViewModel()
         viewModel.loadForecast()
+        weatherViewModel.loadWeather(for: "Seoul")
     }
     
     private func setupTableView() {
@@ -50,10 +60,25 @@ final class ForecastViewController: UIViewController, UITableViewDelegate {
         }
     }
     
+    private func setupBackground() {
+        view.addSubview(backgroundView)
+        backgroundView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+    }
+    
     private func bindViewModel() {
         viewModel.onUpdate = { [weak self] in
             guard let self = self else { return }
             self.tableView.reloadData()
+        }
+        
+        // 배경색은 현재 날씨 데이터
+        weatherViewModel.onUpdate = { [weak self] in
+            guard let self = self else { return }
+        
+            let colors = self.weatherViewModel.backgroundColors
+            self.backgroundView.gradientLayer.colors = colors.map { $0.cgColor }
         }
 
     }
