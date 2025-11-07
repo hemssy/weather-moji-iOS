@@ -84,7 +84,10 @@ extension ForecastViewController: UITableViewDataSource {
                 }
 
         let forecast = viewModel.forecasts[indexPath.row]
-        cell.configure(with: forecast, index: indexPath.row)
+        let mainWeather = forecast.weather.first?.main ?? ""
+        let icon = viewModel.iconName(for: mainWeather)
+        cell.configure(with: forecast, index: indexPath.row, iconName: icon)
+
         
         return cell
     }

@@ -23,3 +23,17 @@ final class ForecastViewModel {
     }
 }
 
+// 아이콘 매핑하기
+extension ForecastViewModel {
+    func iconName(for main: String) -> String {
+        switch main {
+        case "Clear": return "sun"
+        case "Clouds": return "cloud"
+        case "Rain": return "rain"
+        case "Snow": return "snow"
+        case "Thunderstorm": return "storm"
+        default: return "default"
+        }
+    }
+}
+
