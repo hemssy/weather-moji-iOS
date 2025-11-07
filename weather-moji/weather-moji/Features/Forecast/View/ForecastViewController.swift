@@ -8,7 +8,17 @@ final class ForecastViewController: UIViewController, UITableViewDelegate {
     
     private let stackView = UIStackView()
     private let tableView = UITableView()
-    
+
+    private let titleLabel: UILabel = {
+        let label = UILabel()
+        label.text = "서울 날씨 모지?"
+        label.textColor = .white
+        label.font = .systemFont(ofSize: 18)
+        label.textAlignment = .center
+        return label
+    }()
+
+
     // 배경 뷰 추가
     private let backgroundView = BackgroundColorView(colors: [
         UIColor(hexCode: "5497E4"),
@@ -25,6 +35,8 @@ final class ForecastViewController: UIViewController, UITableViewDelegate {
         setupTableView()
         bindViewModel()
         viewModel.loadForecast()
+        showTitleLabelAnimation()
+
         weatherViewModel.loadWeather(for: "Seoul")
     }
     
@@ -48,6 +60,12 @@ final class ForecastViewController: UIViewController, UITableViewDelegate {
     }
     
     private func setupUI() {
+        
+        view.addSubview(titleLabel)
+        titleLabel.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide).offset(40)
+            $0.centerX.equalToSuperview()
+        }
         
         stackView.axis = .vertical
         stackView.spacing = 10
@@ -93,7 +111,16 @@ final class ForecastViewController: UIViewController, UITableViewDelegate {
         }
         navigationItem.titleView = logoImageView
     }
+    
+    private func showTitleLabelAnimation() {
+        titleLabel.alpha = 0
+        UIView.animate(withDuration: 1.5) {
+            self.titleLabel.alpha = 1
+        }
+    }
+
 }
+
 extension ForecastViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewModel.forecasts.count
