@@ -1,7 +1,7 @@
 import UIKit
 import SnapKit
 
-final class ForecastViewController: UIViewController {
+final class ForecastViewController: UIViewController, UITableViewDelegate {
     
     private let viewModel = ForecastViewModel()
     private let stackView = UIStackView()
@@ -9,7 +9,7 @@ final class ForecastViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .systemBackground
+        view.backgroundColor = .gray
         
         navigationBarCustom()
         setupUI()
@@ -23,17 +23,22 @@ final class ForecastViewController: UIViewController {
         
         tableView.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide).offset(20)
-            $0.leading.trailing.bottom.equalToSuperview().inset(16)
+            $0.leading.trailing.bottom.equalToSuperview()
         }
         
         tableView.dataSource = self
-        tableView.rowHeight = 60
-        tableView.separatorStyle = .singleLine
+        tableView.delegate = self
+        tableView.separatorStyle = .none
+        tableView.backgroundColor = .clear
+        tableView.rowHeight = 80
         
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        tableView.register(ForecastCell.self, forCellReuseIdentifier: "ForecastCell")
+        
+        tableView.contentInset = UIEdgeInsets(top: 120, left: 0, bottom: 0, right: 0)
     }
     
     private func setupUI() {
+        
         stackView.axis = .vertical
         stackView.spacing = 10
         stackView.alignment = .center
@@ -47,7 +52,8 @@ final class ForecastViewController: UIViewController {
     
     private func bindViewModel() {
         viewModel.onUpdate = { [weak self] in
-            self?.tableView.reloadData()
+            guard let self = self else { return }
+            self.tableView.reloadData()
         }
 
     }
@@ -69,14 +75,29 @@ extension ForecastViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        let forecast = viewModel.forecasts[indexPath.row]
         
-        cell.textLabel?.text = "\(forecast.dt_txt) | \(forecast.main.temp)°C"
-        cell.textLabel?.font = .systemFont(ofSize: 14)
-        cell.textLabel?.textAlignment = .center
+        guard let cell = tableView.dequeueReusableCell(
+                    withIdentifier: "ForecastCell",
+                    for: indexPath
+                ) as? ForecastCell else {
+                    return UITableViewCell()
+                }
+
+        let forecast = viewModel.forecasts[indexPath.row]
+        cell.configure(with: forecast, index: indexPath.row)
         
         return cell
     }
 }
 
+extension ForecastViewController {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 90
+    }
+    
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        let spacer = UIView()
+        spacer.backgroundColor = .clear
+        return spacer
+    }
+}
