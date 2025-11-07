@@ -5,6 +5,7 @@ final class ForecastViewController: UIViewController {
     
     private let viewModel = ForecastViewModel()
     private let stackView = UIStackView()
+    private let tableView = UITableView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -12,8 +13,24 @@ final class ForecastViewController: UIViewController {
         
         navigationBarCustom()
         setupUI()
+        setupTableView()
         bindViewModel()
         viewModel.loadForecast()
+    }
+    
+    private func setupTableView() {
+        view.addSubview(tableView)
+        
+        tableView.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide).offset(20)
+            $0.leading.trailing.bottom.equalToSuperview().inset(16)
+        }
+        
+        tableView.dataSource = self
+        tableView.rowHeight = 60
+        tableView.separatorStyle = .singleLine
+        
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
     }
     
     private func setupUI() {
@@ -30,16 +47,9 @@ final class ForecastViewController: UIViewController {
     
     private func bindViewModel() {
         viewModel.onUpdate = { [weak self] in
-            guard let self = self else { return }
-            self.stackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
-            
-            for forecast in self.viewModel.forecasts {
-                let label = UILabel()
-                label.text = "\(forecast.dt_txt) , \(forecast.main.temp)°C"
-                label.textAlignment = .center
-                self.stackView.addArrangedSubview(label)
-            }
+            self?.tableView.reloadData()
         }
+
     }
     
     private func navigationBarCustom() {
@@ -51,6 +61,22 @@ final class ForecastViewController: UIViewController {
             $0.height.equalTo(45)
         }
         navigationItem.titleView = logoImageView
+    }
+}
+extension ForecastViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return viewModel.forecasts.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+        let forecast = viewModel.forecasts[indexPath.row]
+        
+        cell.textLabel?.text = "\(forecast.dt_txt) | \(forecast.main.temp)°C"
+        cell.textLabel?.font = .systemFont(ofSize: 14)
+        cell.textLabel?.textAlignment = .center
+        
+        return cell
     }
 }
 
