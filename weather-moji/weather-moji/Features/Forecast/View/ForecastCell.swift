@@ -1,10 +1,3 @@
-//
-//  ForecastCell.swift
-//  weather-moji
-//
-//  Created by 김리하 on 11/7/25.
-//
-
 import UIKit
 import SnapKit
 
@@ -21,7 +14,7 @@ final class ForecastCell: UITableViewCell {
     }
     
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        fatalError("에러메세지")
     }
     
     private func setupUI() {
@@ -64,13 +57,13 @@ final class ForecastCell: UITableViewCell {
         }
     }
     
-    func configure(with forecast: Forecast, index: Int) {
+    func configure(with forecast: Forecast, index: Int, iconName: String) {
         let days = ["오늘", "내일", "모레", "3일 후", "4일 후"]
         dayLabel.text = days[index]
-        
         tempLabel.text = "\(Int(forecast.main.temp))°C"
-        weatherIcon.image = UIImage(systemName: "sun.max.fill")?.withRenderingMode(.alwaysOriginal)
+        weatherIcon.image = UIImage(named: iconName)
     }
+
 }
 
 
