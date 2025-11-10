@@ -67,6 +67,13 @@
 
 ### 🏗️ 데이터 흐름
 
+1. 사용자가 도시명을 입력 -> **SearchViewModel**로 전달
+2. WeatherViewModel이 입력값을 받아 **WeatherService**에 API 요청 수행
+3. 응답받은 JSON 데이터를 `WeatherResponse`, `ForecastResponse` 모델로 디코딩
+4. **ViewModel**이 온도/습도/풍속/날씨 설명/아이콘명 등을 가공
+5. ViewModel의 **Rx 데이터를 View에서 구독**하여 UI 즉시 갱신
+6. 날씨 상태에 따라 배경색, 아이콘, 문구 등이 자동 변경
+7. 섭씨/화씨 토글 전환은 ViewModel 내부에서 즉시 반영
 
 <br>
 
