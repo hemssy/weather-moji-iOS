@@ -30,7 +30,7 @@ SnapKit으로 UI를 구성하고 RxSwift로 데이터 흐름을 관리했습니�
 
 |김리하|신서연|이정은|
 |-------------|--------------|-------------|
-| <div align="center">[@RiHA039](https://github.com/RiHA039$0)</div> | <div align="center">[@hemssy](https://github.com/hemssy)</div>  | <div align="center">[@zzaeun](https://github.com/zzaeun)</div> |
+| <div align="center">[@RiHA039](https://github.com/RiHA039)</div> | <div align="center">[@hemssy](https://github.com/hemssy)</div>  | <div align="center">[@zzaeun](https://github.com/zzaeun)</div> |
 
 </div>
 
@@ -195,10 +195,10 @@ gitGraph
 ---
 
 ## 개발일지 
-### [위키 바로가기]()
+### [노션 바로가기](https://www.notion.so/2a0b000d70fa802f8029ca44e2b08bc3?source=copy_link)
 
 <br>
 
 ## 트러블슈팅 🔫
 
-### [위키 바로가기]()
+### [위키 바로가기](https://github.com/hemssy/WeatherMoji-iOS/wiki/👷-날씨모지-트러블슈팅)
