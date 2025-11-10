@@ -9,7 +9,7 @@
 
 <br>
 
-**프로젝트 주제**: 날씨 앱 만들기
+**프로젝트 주제**: OpenWeather API를 활용해 지역 기반 날씨 정보를 제공하는 iOS 앱 만들기
 
 **프로젝트 이름**: 날씨모지(weather-moji)
 
@@ -73,6 +73,56 @@
 ## 디렉토리 구조 🗂️
 
 ```text
+weather-moji
+├── 📂App
+│   ├── AppDelegate.swift
+│   └── SceneDelegate.swift
+│
+├── 📂Features
+│   ├── 📂Alert
+│   │   └── LocationManagerService.swift
+│   │
+│   ├── 📂Forecast
+│   │   ├── 📂Model
+│   │   │   └── ForecastResponse.swift
+│   │   ├── 📂View
+│   │   │   ├── ForecastCell.swift
+│   │   │   └── ForecastViewController.swift
+│   │   └── 📂ViewModel
+│   │       └── ForecastViewModel.swift
+│   │
+│   ├── 📂Search
+│   │   ├── 📂View
+│   │   │   ├── SearchViewController.swift
+│   │   │   └── TempToggleView.swift
+│   │   └── 📂ViewModel
+│   │       └── SearchViewModel.swift
+│   │
+│   ├── 📂Splash
+│   │   └── 📂View
+│   │       └── SplashViewController.swift
+│   │
+│   └── 📂Weather
+│       ├── 📂Model
+│       │   └── Weather.swift
+│       └── 📂ViewModel
+│           └── WeatherViewModel.swift
+│
+├── 📂Network
+│   └── WeatherService.swift
+│
+├── 📂Resources
+│   ├── 📂Color
+│   │   ├── backgroundColor.swift
+│   │   └── hexColor.swift
+│   ├── Assets.xcassets
+│   └── LaunchScreen.storyboard
+│
+├── Info.plist
+│
+└── 📦Package Dependencies
+    ├── RxSwift 6.9.1
+    └── SnapKit 5.7.1
 
 ```
 
