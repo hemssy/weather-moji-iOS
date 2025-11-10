@@ -1,6 +1,7 @@
 # 날씨모지-iOS
 
-<img width="941" height="616" alt="image" src="https://github.com/user-attachments/assets/895d289a-6fa9-4f82-9f5d-6090641c4370" />
+<img width="941" height="616" alt="날씨모지_표지" src="https://github.com/user-attachments/assets/7e17e942-1888-40d5-bb04-f7e441c817e2" />
+
 
 <br>
 
