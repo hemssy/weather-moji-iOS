@@ -43,15 +43,14 @@
 
 | 기능 구분 | 설명 | 뷰 |
 |------------|-------|-------------|
-| **현재위치의 날씨표시** |  |  |
-| **지역 날씨 검색** |  |  |
-| **현재위치로 이동** |  |  |
-| **서울 일기예보** |  |  |
+| **현재위치의 날씨표시** | - 앱 실행 시 스플래시 화면 표시된 이후 메인 화면으로 전환 <br> - 메인화면에는 고정 위치인 서울의 현재 날씨를 기본으로 표시 <br> - **OpenWeatherMap API**를 통해 기온, 풍속, 습도, 날씨 상태를 조회 <br> - 날씨 상태(`main` 값)에 따라 배경 색상과 아이콘이 동적으로 변경됨 | <img width="650" height="418" alt="기능1" src="https://github.com/user-attachments/assets/6ed92acf-4dcc-499c-8032-3702e31265e1" /> |
+| **지역 날씨 검색** | - 사용자가 입력한 도시명을 기반으로 **OpenWeatherMap API** 호출 <br> - **RxSwift**를 활용해 **검색어 입력 -> API 요청 -> UI 업데이트** 흐름 구현 <br> - 검색 결과에 따른 온도(섭씨/화씨), 날씨 아이콘, 설명 문구 표시 | <img width="650" height="418" alt="기능2" src="https://github.com/user-attachments/assets/1614e8a7-4dfb-4e2d-bdb1-6f54ec008f00" /> |
+| **현재위치로 이동** | - 서울을 기준 위치로 설정함 <br> - 현재위치 버튼 탭 시, `Seoul` 문자열을 고정적으로 방출하여 자동 검색 | <img width="650" height="418" alt="기능3" src="https://github.com/user-attachments/assets/6a63a1a0-0d5f-48fb-b822-08a9fcd0b0c3" /> |
+| **서울 일기예보** | - OpenWeatherMap의 **5 day / 3 hour API** 사용 <br> - 응답 중 `정오시각`의 데이터만 필터링하여 5일치 예보 표시 <br> - 각 셀은 요일, 날씨 아이콘, 기온 정보를 보여주는 리스트 형식으로 구성됨 | <img width="650" height="418" alt="기능4" src="https://github.com/user-attachments/assets/8b67268b-0702-45d1-865a-0a5df8dc6339" /> |
 
 <br>
 
 ## 아키텍처 개요 👷
-
 
 <br>
 
