@@ -58,10 +58,10 @@
 ### 🏗️ 계층별 역할
 | 계층 구분 | 주요 폴더 | 책임 |
 |------------|-------|-------------|
-| **View** |  |  |
-| **ViewModel** |  |  |
-| **Model** |  |  |
-| **Service** |  |  |
+| **View** | `Features/Search/View`, `Features/Forecast/View`, `Features/Splash/View` | UIKit 기반 UI 구성, 사용자 입력 감지 및 ViewModel에 전달 |
+| **ViewModel** | `Features/Search/ViewModel`, `Features/Weather/ViewModel`, `Features/Forecast/ViewModel` | Service로부터 받은 데이터를 가공하여 View에 전달 |
+| **Model** | `Features/Weather/Model`| OpenWeatherMap API 응답 구조(`WeatherResponse`, `ForecastResponse`) 정의 |
+| **Service** | `Network/WeatherService` | OpenWeatherMap API 통신 및 JSON 파싱 처리 |
 
 <br>
 
