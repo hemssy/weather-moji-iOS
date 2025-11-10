@@ -1,15 +1,6 @@
 # 날씨모지-iOS
+
 <img width="941" height="616" alt="image" src="https://github.com/user-attachments/assets/895d289a-6fa9-4f82-9f5d-6090641c4370" />
-
-<br>
-
-사용자의 현재 위치 날씨를 표시하고, 검색을 통해 다른 지역의 날씨도 확인할 수 있는 iOS 앱입니다. 
-
-현재위치 기준으로 5일간의 일기예보를 제공합니다.
-
-날씨 데이터는 **OpenWeatherMap API**를 통해 가져오며,
-
-SnapKit으로 UI를 구성하고 RxSwift로 데이터 흐름을 관리했습니다.
 
 <br>
 
@@ -22,6 +13,8 @@ SnapKit으로 UI를 구성하고 RxSwift로 데이터 흐름을 관리했습니�
 **프로젝트 이름**: 날씨모지(weather-moji)
 
 **와이어프레임**: 🔗 [피그마](https://www.figma.com/design/opXqPOjbtH5fsH1qFMkqzO/%EB%82%A0%EC%94%A8%EB%AA%A8%EC%A7%80-%ED%94%BC%EA%B7%B8%EB%A7%88-%EB%B3%B4%EB%93%9C?node-id=0-1&t=ZezdfiaGKjz5e4A0-1)
+
+<br>
 
 ## 🍎 날씨모지-iOS Team
 
