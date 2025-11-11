@@ -3,8 +3,7 @@
 <img width="941" height="616" alt="날씨모지_표지" src="https://github.com/user-attachments/assets/7e17e942-1888-40d5-bb04-f7e441c817e2" />
 
 <br>
-
-## 프로젝트 소개 
+<br>
 
 > [**OpenWeatherMap API**](https://openweathermap.org/api)를 활용해 실시간 날씨와 5일 예보 정보를 제공합니다.
 > 
@@ -15,6 +14,8 @@
 > MVVM 아키텍처를 기반으로 **View / ViewModel / Model** 간의 의존성을 최소화하고, RxSwift와 NotificationCenter를 통해 화면 간 데이터 갱신을 효율적으로 처리했습니다.
 
 <br>
+
+## 프로젝트 소개 
 
 **프로젝트 주제**: OpenWeather API를 활용해 지역 기반 날씨 정보를 제공하는 iOS 앱 만들기
 
