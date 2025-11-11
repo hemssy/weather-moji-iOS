@@ -2,10 +2,17 @@
 
 <img width="941" height="616" alt="날씨모지_표지" src="https://github.com/user-attachments/assets/7e17e942-1888-40d5-bb04-f7e441c817e2" />
 
-
 <br>
 
 ## 프로젝트 소개 
+
+> [**OpenWeatherMap API**](https://openweathermap.org/api)를 활용해 실시간 날씨와 5일 예보 정보를 제공합니다.
+> 
+> 사용자가 선택한 지역의 날씨는 섭씨/화씨 단위 전환이 가능하며, 풍속과 습도 등의 기상 상태를 함께 표시해 종합적인 날씨 정보를 제공합니다.
+>
+> 날씨 상세 화면에서는 아이콘과 배경색이 지역의 기상 상태에 따라 **동적으로 변경**되어 직관적인 사용자 경험을 제공합니다.
+>
+> MVVM 아키텍처를 기반으로 **View / ViewModel / Model** 간의 의존성을 최소화하고, RxSwift와 NotificationCenter를 통해 화면 간 데이터 갱신을 효율적으로 처리했습니다.
 
 <br>
 
@@ -19,7 +26,6 @@
 
 ## 🍎 날씨모지-iOS Team
 
-<br>
 <div align="center">
 
 |김리하|신서연|이정은|
