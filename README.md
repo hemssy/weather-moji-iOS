@@ -31,7 +31,7 @@
 
 |김리하|신서연|이정은|
 |-------------|--------------|-------------|
-| <div align="center">[@RiHA039](https://github.com/RiHA039)</div> | <div align="center">[@hemssy](https://github.com/hemssy)</div>  | <div align="center">[@zzaeun](https://github.com/zzaeun)</div> |
+| <div align="center">[@meowbyterh](https://github.com/meowbyterh)</div> | <div align="center">[@hemssy](https://github.com/hemssy)</div>  | <div align="center">[@zzaeun](https://github.com/zzaeun)</div> |
 
 </div>
 
